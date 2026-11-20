@@ -1220,7 +1220,12 @@ def _positive_llama_build(value: str):
 
     import re
 
-    match = re.search(r"version:\s*b?(\d+)\b", str(value or ""), re.IGNORECASE)
+    text = str(value or "")
+    # Newer llama.cpp prints ``version: 1.0.0-dev (build 12359, commit ...)``;
+    # the build number is the one in parentheses, not the leading semver major.
+    match = re.search(r"\(build\s+(\d+)", text, re.IGNORECASE)
+    if not match:
+        match = re.search(r"version:\s*b?(\d+)\b(?!\.)", text, re.IGNORECASE)
     if not match:
         return None
     build = int(match.group(1))

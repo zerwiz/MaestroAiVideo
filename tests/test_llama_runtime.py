@@ -36,6 +36,16 @@ class TestLlamaBuildMetadata(unittest.TestCase):
             10488,
         )
 
+    def test_semver_version_reads_the_build_in_parentheses(self):
+        # llama.cpp b12xxx prints a semver first; its major is not the build.
+        self.assertEqual(
+            llm_service._positive_llama_build(
+                "version: 1.0.0-dev (build 12359, commit b1b770d90)\n"
+                "built with GNU 13.3.0 for Linux x86_64"
+            ),
+            12359,
+        )
+
     def test_zero_build_means_unknown(self):
         self.assertIsNone(
             llm_service._positive_llama_build("version: 0 (unknown)")
