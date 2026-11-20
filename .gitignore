@@ -120,3 +120,8 @@ app/dlss5/
 !docs/development/
 docs/development/*
 !docs/development/wan2gp-12-71-port-plan.md
+
+# 2026-11-20 — local model files never enter the repo (they live on the model shelves)
+*.gguf
+app/Qwen3-VL-32B-Instruct/
+app/qwen3vl-32b-minimax-h3/
